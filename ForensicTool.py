@@ -2,13 +2,19 @@ try:
     import requests
     import os
     import json
+    import whois
+    from colorama import Fore
 except Exception:
     print("Modülleriniz Eksik.")
 
-os.system("cls")
+if os.name == "nt":
+    os.system("cls")
+elif os.name == "posix":
+    os.system("clear")
 
-banner = """Izlegal[MrX] Forensic Tool"""
+banner = f"""{Fore.LIGHTGREEN_EX} Izlegal[MrX] Forensic Tool"""
 
+print(Fore.LIGHTRED_EX)
 menu = """
     Izlegal[MrX] Forensic Tool
     Eğer 'Quoota Limit' diye hata verirse IP değiştirin.
@@ -32,12 +38,16 @@ menu = """
  16 => HiJacking & Protocol Downgrade Attack in Headers Check
  17 => ClickJacking Security in Headers Check
  18 => XSS Vulnerability in Headers Check
+ 19 => WHOIS LOOKUP (JUST FOR DOMAIN ADDRESS)
 """
 
 print(menu)
 
 choice = int(input(" Choose ur want: "))
-os.system("cls")
+if os.name == "nt":
+    os.system("cls")
+elif os.name == "posix":
+    os.system("clear")
 if choice == 0:
     exit()
 print(banner)
@@ -145,7 +155,7 @@ if choice == 8:
             print("[+] Bu Mail E-Posta alabilir.")
         elif "is an invalid email" in mrxvalid.text:
             print("[-] Bu Mail Çalışmamaktadır.")
-        input()
+        input("Press ENTER For Exit.")
 
     emailvalid()
 
@@ -162,7 +172,7 @@ if choice == 9:
             print("[+] Private Mail Address")
         elif "We found" in proxyy.text:
             print("[-] Mail Public!!")
-        input()
+        input("Press ENTER For Exit.")
 
     proxycheck()
 
@@ -178,7 +188,7 @@ if choice == 10:
             print("[+] Have Firewall")
         elif "No record found" in DMARCR.text:
             print("[-] No Firewall")
-        input()
+        input("Press ENTER For Exit.")
 
     DMARC()
 
@@ -196,7 +206,7 @@ if choice == 11:
         y = json.loads(zaclol)
         reqid = y["data"]["protocols"]
         print("TLS Bilgileri: ", reqid)
-        input()
+        input("Press ENTER For Exit.")
     TLS()
 
 if choice == 12:
@@ -213,7 +223,7 @@ if choice == 12:
         xx = json.loads(zacmrx)
         xxyy = xx["data"]
         print("DNS Records Infos: ",xxyy)
-        input()
+        input("Press ENTER For Exit.")
 
     DNSRECORD()
 
@@ -231,7 +241,7 @@ if choice == 13:
         ii = json.loads(reqss)
         iibb = ii["data"]
         print("Screenshot URL => ",iibb)
-        input()
+        input("Press ENTER For Exit.")
 
     screenshot()
 
@@ -248,7 +258,7 @@ if choice == 14:
 
         rr = json.loads(rmrx)
         print(rr["data"])
-        input()
+        input("Press ENTER For Exit.")
 
     DNSSEC()
 
@@ -266,7 +276,7 @@ if choice == 15:
         else:
             print("Invalid Token or Token've Honeypot")
 
-        input()
+        input("Press ENTER For Exit.")
 
     Honeypot()
 
@@ -283,7 +293,7 @@ if choice == 16:
             print("[+] ENABLED HTTP Strict Transport Security. in response headers")
         elif not "strict-transport-security" in r:
             print("[-] No Security. Have Vulnerability!!")
-
+        input("Press ENTER For Exit.")
     JSVuln()
 
 if choice == 17:
@@ -300,7 +310,7 @@ if choice == 17:
             print("[+] ENABLED ClickJacking Security in response headers.")
         elif not "x-frame-options" in req:
             print("[-] No Security. Have Vulnerability!!")
-
+        input("Press ENTER For Exit.")
     ClickJacking()
 
 if choice == 18:
@@ -317,5 +327,17 @@ if choice == 18:
             print("[+] ENABLED XSS Protection! in response headers")
         elif not "x-content-type-options" in reqs:
             print("[-] No Security. Have Vulnerability!!")
-
+        input("Press ENTER For Exit.")
     XSS()
+
+if choice == 19:
+    def WHOIS():
+
+        whoiss = input("Domain Address: ")
+        print()
+        w = whois.whois(whoiss)
+        w.text
+        print(w)
+        input("Press ENTER For Exit.")
+
+    WHOIS()
