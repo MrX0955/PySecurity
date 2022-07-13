@@ -4,6 +4,8 @@ try:
     import json
     import whois
     from colorama import Fore
+    from bs4 import BeautifulSoup
+    from lxml import html
 except Exception:
     print("Modülleriniz Eksik.")
 
@@ -39,6 +41,8 @@ menu = """
  17 => ClickJacking Security in Headers Check
  18 => XSS Vulnerability in Headers Check
  19 => WHOIS LOOKUP (JUST FOR DOMAIN ADDRESS)
+ 20 => CloudFlare Resolver
+ 21 => Hash Analyzer (Identifier)
 """
 
 print(menu)
@@ -50,7 +54,7 @@ elif os.name == "posix":
     os.system("clear")
 if choice == 0:
     exit()
-print(banner)
+print(banner, "\n")
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
@@ -68,7 +72,7 @@ headerss = {
 
 if choice == 1:
     def reversedns():
-        dns = input("IP Address: ")
+        dns = input(" IP Address: ")
         print("")
         r = requests.get(f"https://api.hackertarget.com/reversedns/?q={dns}")
 
@@ -79,7 +83,7 @@ if choice == 1:
 
 if choice == 2:
     def dnslookup():
-        lookup = input("Domain Name: ")
+        lookup = input(" Domain Name: ")
         print("")
         x = requests.get(f"https://api.hackertarget.com/dnslookup/?q={lookup}")
 
@@ -90,7 +94,7 @@ if choice == 2:
 
 if choice == 3:
     def geoip():
-        geoip = input("IP Address: ")
+        geoip = input(" IP Address: ")
         print("")
         i = requests.get(f"https://api.hackertarget.com/geoip/?q={geoip}")
 
@@ -101,7 +105,7 @@ if choice == 3:
 
 if choice == 4:
     def zonetransfer():
-        zonetransfer = input("IP Address: ")
+        zonetransfer = input(" IP Address: ")
         print("")
         z = requests.get(f"https://api.hackertarget.com/zonetransfer/?q={zonetransfer}")
 
@@ -112,7 +116,7 @@ if choice == 4:
 
 if choice == 5:
     def dnssubdomain():
-        subdomain = input("Domain Name: ")
+        subdomain = input(" Domain Name: ")
         print("")
         k = requests.get(f"https://api.hackertarget.com/hostsearch/?q={subdomain}")
 
@@ -123,7 +127,7 @@ if choice == 5:
 
 if choice == 6:
     def reverseip():
-        reverseip = input("IP Address: ")
+        reverseip = input(" IP Address: ")
         print("")
         mrx = requests.get(f"https://api.hackertarget.com/reverseiplookup/?q={reverseip}")
 
@@ -134,7 +138,7 @@ if choice == 6:
 
 if choice == 7:
     def ASN():
-        asnlookup = input("IP Address or ASN: ")
+        asnlookup = input(" IP Address or ASN: ")
         print("")
         hasfa = requests.get(f"https://api.hackertarget.com/aslookup/?q={asnlookup}")
 
@@ -145,7 +149,7 @@ if choice == 7:
 
 if choice == 8:
     def emailvalid():
-        mailvalid = input("Email Gir: ")
+        mailvalid = input(" Email Gir: ")
         print("")
 
         datas = f'address=&email={mailvalid}&submit=Verify+Email+Address'
@@ -161,7 +165,7 @@ if choice == 8:
 
 if choice == 9:
     def proxycheck():
-        proxy = input("Mail Address: ")
+        proxy = input(" Mail Address: ")
         print("")
         proxy.replace("@","%40")
 
@@ -178,7 +182,7 @@ if choice == 9:
 
 if choice == 10:
     def DMARC():
-        ece = input("Domain Address: ")
+        ece = input(" Domain Address: ")
         print("")
 
         datas = f'url={ece}&submit='
@@ -194,7 +198,7 @@ if choice == 10:
 
 if choice == 11:
     def TLS():
-        tlszac = input("Domain Address (örn: zaclol.dev): ")
+        tlszac = input(" Domain Address (örn: zaclol.dev): ")
         print()
 
         datam = {
@@ -211,7 +215,7 @@ if choice == 11:
 
 if choice == 12:
     def DNSRECORD():
-        dnsrecord = input("Domain Address (örn: zaclol.dev): ")
+        dnsrecord = input(" Domain Address (örn: zaclol.dev): ")
         print()
 
         datamiz = {
@@ -229,7 +233,7 @@ if choice == 12:
 
 if choice == 13:
     def screenshot():
-        ss = input("Domain Address For ScreenShot: ")
+        ss = input(" Domain Address For ScreenShot: ")
         print()
 
         datamizz = {
@@ -247,7 +251,7 @@ if choice == 13:
 
 if choice == 14:
     def DNSSEC():
-        DNSSEC = input("Domain Address: ")
+        DNSSEC = input(" Domain Address: ")
         print()
 
         datamizzz = {
@@ -264,7 +268,7 @@ if choice == 14:
 
 if choice == 15:
     def Honeypot():
-        honeypot = input("Token Address: ")
+        honeypot = input(" Token Address: ")
         print()
 
         honeydata = f"address={honeypot}&chain=bsc"
@@ -283,7 +287,7 @@ if choice == 15:
 if choice == 16:
     def JSVuln():
         # HiJacking & Protocol Downgrade Attack
-        istek = input("Domain addres: ")
+        istek = input(" Domain addres: ")
         print()
 
         data = {"url": istek, "type": "hsts-test"}
@@ -299,7 +303,7 @@ if choice == 16:
 if choice == 17:
     def ClickJacking():
 
-        wuhu = input("Domain Address: ")
+        wuhu = input(" Domain Address: ")
         print()
 
         dataa = {"url": wuhu, "type": "x-frame-options-test"}
@@ -316,7 +320,7 @@ if choice == 17:
 if choice == 18:
     def XSS():
 
-        istekxss = input("Domain Address: ")
+        istekxss = input(" Domain Address: ")
         print()
 
         datasss = {"url": istekxss, "type": "mime-sniffing-test"}
@@ -333,11 +337,71 @@ if choice == 18:
 if choice == 19:
     def WHOIS():
 
-        whoiss = input("Domain Address: ")
+        whoiss = input(" Domain Address: ")
         print()
         w = whois.whois(whoiss)
-        w.text
+        var = w.text
         print(w)
         input("Press ENTER For Exit.")
 
     WHOIS()
+
+if choice == 20:
+    def CF():
+
+        cloudflare = input(" Enter Domain Address: ")
+        print()
+
+        datax = f"action=PostData&string={cloudflare}"
+
+        headersx = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
+            "Pragma": "no-cache",
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "x-requested-with": "XMLHttpRequest",
+            "referer": "https://webresolver.nl/tools/cloudflare",
+            "origin": "https://webresolver.nl"
+        }
+
+        req = requests.post("https://webresolver.nl/ajax/tools/cloudflare", data=datax, headers=headersx).text
+        var = req.replace("<br>", " ")
+        varmi = var.replace("</b><br />", " ")
+        varherhalde = varmi.replace("<b>", " ")
+        KT = varherhalde.replace("Cloudflare Resolver", " ")
+        print(KT)
+        input("Press ENTER For Exit.")
+
+    CF()
+if choice == 21:
+    def Identifier():
+
+        page = requests.get("https://hashes.com/en/tools/hash_identifier")
+        soup = BeautifulSoup(page.content, 'html.parser')
+        title = soup.find(type="hidden")
+        TK = title.attrs.get('value')
+        coq = page.cookies.get_dict()
+
+        hash = input("Hash Giriniz: ")
+        print()
+
+        headersi = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
+            "Connection": "keep-alive",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "referer": "https://hashes.com/en/tools/hash_identifier",
+            "origin": "https://hashes.com"
+        }
+
+        data = f"csrf_token={TK}&hashes={hash}&submitted=true"
+        req = requests.post("https://hashes.com/en/tools/hash_identifier", data=data, cookies=coq, headers=headersi)
+        if "border-success text-success" in req.text:
+            tree = html.fromstring(req.content)
+            Final = tree.xpath('/html/body/div[1]/div[2]/div/div[3]/pre/div/text()')
+            print(Final)
+        else:
+            print("Algoritma Bulunamadı")
+        input("Press ENTER For Exit.")
+
+    Identifier()
