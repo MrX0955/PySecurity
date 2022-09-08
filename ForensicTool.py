@@ -43,6 +43,7 @@ menu = """
  19 => WHOIS LOOKUP (JUST FOR DOMAIN ADDRESS)
  20 => CloudFlare Resolver
  21 => Hash Analyzer (Identifier)
+ 22 => CloudFlare Resolver (CrimeFlare)
 """
 
 print(menu)
@@ -405,3 +406,16 @@ if choice == 21:
         input("Press ENTER For Exit.")
 
     Identifier()
+
+if choice == 22:
+    def cfresolver():
+        url = input("CloudFlare'li Site Girin: ")
+        req = requests.get(f"https://crimeflare.herokuapp.com/?url={url}").text
+        try:
+            z = re.search(r"\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b", req)
+            ip = z.group()
+            print("Final >" + ip)
+        except Exception:
+            print("CF IP Bulunamadı")
+
+    cfresolver()
