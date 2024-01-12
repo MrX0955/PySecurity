@@ -382,7 +382,7 @@ if choice == 21:
         title = soup.find(type="hidden")
         TK = title.attrs.get('value')
         coq = page.cookies.get_dict()
-
+j
         hash = input("Hash Giriniz: ")
         print()
 
