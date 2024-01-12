@@ -23,14 +23,14 @@ MENU = f"""
 
  [0] > Close ForensicTool.        [11] > TLS Scan.
  [1] > Reverse DNS.               [12] > DNS Record.
- [2] > DNS Lookup.                [13] > DNS Security Check.
- [3] > Geolocation IP.            [14] > Honeypot Check.
- [4] > Zone Transfer.             REV [15] > Hash Analyzer.
- [5] > DNS Host Records.          REV [16] > ClickJacking Security in Headers Check.
- [6] > Reverse IP Lookup.         REV [17] > XSS Vulnerability in Headers Check.
- [7] > ASN Lookup.                REV [18] > Whois Lookup.
- [8] > Email Validator.           REV [19] > CloudFlare Resolver.
- [9] > Have I been Pwned?         REV [20] > CloudFlare Resolver.
+ [2] > DNS Lookup.                [13] > DNS Security Extensions Check.
+ [3] > Geolocation IP.            [14] > XSS VUlnerability.
+ [4] > Zone Transfer.             [15] > CloudFlare Resolver.
+ [5] > DNS Host Records.          [16] > HiJacking & Protocol Downgrade Attack in Headers Check.
+ [6] > Reverse IP Lookup.
+ [7] > ASN Lookup.
+ [8] > Email Validator.
+ [9] > Have I been Pwned?
 [10] > DMARC Lookup.              
 """
 print(MENU)
@@ -60,7 +60,7 @@ headers2 = {
 
 if choice == 1:
     def reverseDNS():
-        print(f"{Fore.LIGHTRED_EX}Reverse DNS{Fore.LIGHTGREEN_EX}")
+        print(f"{Fore.LIGHTRED_EX} > Reverse DNS{Fore.LIGHTGREEN_EX}")
         dns = input("Enter the IP Address: ")
         izlegal = requests.get(f"https://api.hackertarget.com/reversedns/=q={dns}")
         print(izlegal.text, "| >> Press ENTER For Exit.")
@@ -69,7 +69,7 @@ if choice == 1:
 
 if choice == 2:
     def DNSLookup():
-        print(f"{Fore.LIGHTRED_EX}DNS Lookup{Fore.LIGHTGREEN_EX}")
+        print(f"{Fore.LIGHTRED_EX} > DNS Lookup{Fore.LIGHTGREEN_EX}")
         lookup = input("Enter the Domain Name: ")
         two = requests.get(f"https://api.hackertarget.com/aslookup/?q={lookup}")
         print(two.text, "| >> Press ENTER For Exit.")
@@ -86,7 +86,7 @@ if choice == 3:
     geoip()
 
 if choice == 4:
-    print(f"{Fore.LIGHTRED_EX}Zone Transfer{Fore.LIGHTGREEN_EX}")
+    print(f"{Fore.LIGHTRED_EX} > Zone Transfer{Fore.LIGHTGREEN_EX}")
     def zonetransfer():
         zonetransfer = input("Enter the IP Address: ")
         z = requests.get(f"https://api.hackertarget.com/zonetransfer/?q={zonetransfer}")
@@ -95,7 +95,7 @@ if choice == 4:
     zonetransfer()
 
 if choice == 5:
-    print(f"{Fore.LIGHTRED_EX}DNS Host Records{Fore.LIGHTGREEN_EX}")
+    print(f"{Fore.LIGHTRED_EX} > DNS Host Records{Fore.LIGHTGREEN_EX}")
     def dnssubdomain():
         subdomain = input("Enter the Domain Name: ")
         k = requests.get(f"https://api.hackertarget.com/hostsearch/?q={subdomain}")
@@ -104,7 +104,7 @@ if choice == 5:
     dnssubdomain()
 
 if choice == 6:
-    print(f"{Fore.LIGHTRED_EX}Reverse IP Lookup{Fore.LIGHTGREEN_EX}")
+    print(f"{Fore.LIGHTRED_EX} > Reverse IP Lookup{Fore.LIGHTGREEN_EX}")
     def reverseip():
         reverseip = input("Enter the IP Address: ")
         mrx = requests.get(f"https://api.hackertarget.com/reverseiplookup/?q={reverseip}")
@@ -113,7 +113,7 @@ if choice == 6:
     reverseip()
 
 if choice == 7:
-    print(f"{Fore.LIGHTRED_EX}ASN Lookup{Fore.LIGHTGREEN_EX}")
+    print(f"{Fore.LIGHTRED_EX} > ASN Lookup{Fore.LIGHTGREEN_EX}")
     def ASN():
         asnlookup = input(" IP Address or ASN: ")
         hasfa = requests.get(f"https://api.hackertarget.com/aslookup/?q={asnlookup}")
@@ -122,7 +122,7 @@ if choice == 7:
     ASN()
 
 if choice == 8:
-    print(f"{Fore.LIGHTRED_EX}Email Validator{Fore.LIGHTGREEN_EX}")
+    print(f"{Fore.LIGHTRED_EX} > Email Validator{Fore.LIGHTGREEN_EX}")
     def emailvalid():
         mailvalid = input("Enter the Email Address: ")
         datas = f'address=&email={mailvalid}&submit=Verify+Email+Address'
@@ -136,7 +136,7 @@ if choice == 8:
     emailvalid()
 
 if choice == 9:
-    print(f"{Fore.LIGHTRED_EX}Have I Been Pwned{Fore.LIGHTGREEN_EX}")
+    print(f"{Fore.LIGHTRED_EX} > Have I Been Pwned{Fore.LIGHTGREEN_EX}")
     def proxycheck():
         proxy = input("Enter the Mail Address: ")
         proxy.replace("@", "%40")
@@ -151,9 +151,9 @@ if choice == 9:
     proxycheck()
 
 if choice == 10:
-    print(f"{Fore.LIGHTRED_EX}DMARC Lookup{Fore.LIGHTGREEN_EX}")
+    print(f"{Fore.LIGHTRED_EX} > DMARC Lookup{Fore.LIGHTGREEN_EX}")
     def DMARC():
-        ece = input(" Domain Address: ")
+        ece = input("Enter the Domain Address: ")
         datas = f'url={ece}&submit='
         DMARCR = requests.post("https://tools.iplocation.net/dmarc-lookup", data=datas, headers=headers)
 
@@ -165,7 +165,7 @@ if choice == 10:
     DMARC()
 
 if choice == 11:
-    print(f"{Fore.LIGHTRED_EX}TLS Scan{Fore.LIGHTGREEN_EX}")
+    print(f"{Fore.LIGHTRED_EX} > TLS Scan{Fore.LIGHTGREEN_EX}")
     def TLS():
         tlszac = input("Enter the Domain Address: ")
         datam = {
@@ -180,7 +180,7 @@ if choice == 11:
     TLS()
 
 if choice == 12:
-    print(f"{Fore.LIGHTRED_EX}DNS Record{Fore.LIGHTGREEN_EX}")
+    print(f"{Fore.LIGHTRED_EX} > DNS Record{Fore.LIGHTGREEN_EX}")
     def DNSRECORD():
         dnsrecord = input("Enter the Domain Address: ")
 
@@ -195,7 +195,7 @@ if choice == 12:
     DNSRECORD()
 
 if choice == 13:
-    print(f"{Fore.LIGHTRED_EX}DNS Security Extensions Check{Fore.LIGHTGREEN_EX}")
+    print(f"{Fore.LIGHTRED_EX} > DNS Security Extensions Check{Fore.LIGHTGREEN_EX}")
     def DNSSEC():
         DNSSEC = input("Enter the Domain Address: ")
         datamizzz = {
@@ -208,18 +208,56 @@ if choice == 13:
     DNSSEC()
 
 if choice == 14:
-    print(f"{Fore.LIGHTRED_EX}Honeypot Check{Fore.LIGHTGREEN_EX}")
-    def Honeypot():
-        honeypot = input("Enter the Token Address: ")
-        honeydata = f"address={honeypot}&chain=bsc"
-        honeyreq = requests.post(f"https://honeypot.api.rugdoc.io/api/honeypotStatus.js?address={honeypot}&chain=bsc",
-                                 headers=headers, data=honeydata).text
+    print(f"{Fore.LIGHTRED_EX} > XSS VUlnerability{Fore.LIGHTGREEN_EX}")
+    def XSS():
 
-        if "status\":\"OK" in honeyreq:
-            print("Honeypot Passed")
-        else:
-            print(f"{Fore.RED}Invalid Token or Token've Honeypot{Fore.LIGHTRED_EX}")
+        untk = input("Enter the Domain Address: ")
+        datasss = {"url": untk, "type": "mime-sniffing-test"}
+        reqs = requests.post("https://geekflare.com/tools/api/http-header", headers=headers2, json=datasss).text
 
+        if "x-content-type-options" in reqs:
+            print("[+] ENABLED XSS Protection! in response headers.")
+        elif not "x-content-type-options" in reqs:
+            print(f"{Fore.RED}[-] No Security. Have Vulnerability!{Fore.LIGHTGREEN_EX}")
         input("Press ENTER For Exit.")
-    Honeypot()
+    XSS()
 
+if choice == 15:
+    print(f"{Fore.LIGHTRED_EX} > CloudFlare Resolver{Fore.LIGHTGREEN_EX}")
+    def CF():
+        cloudflare = input("Enter the Domain Address: ")
+        datax = f"action=PostData&string={cloudflare}"
+
+        headersx = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
+            "Pragma": "no-cache",
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "x-requested-with": "XMLHttpRequest",
+            "referer": "https://webresolver.nl/tools/cloudflare",
+            "origin": "https://webresolver.nl"
+        }
+
+        req = requests.post("https://webresolver.nl/ajax/tools/cloudflare", data=datax, headers=headersx).text
+        var = req.replace("<br>", " ")
+        varmi = var.replace("</b><br />", " ")
+        varherhalde = varmi.replace("<b>", " ")
+        KT = varherhalde.replace("Cloudflare Resolver", " ")
+        print(KT)
+        input("Press ENTER For Exit.")
+    CF()
+
+if choice == 16:
+    print(f"{Fore.LIGHTRED_EX} > HiJacking & Protocol Downgrade Attack in Headers Check{Fore.LIGHTGREEN_EX}")
+    def JSVuln():
+        # HiJacking & Protocol Downgrade Attack
+        istek = input("Enter the Domain addres: ")
+        data = {"url": istek, "type": "hsts-test"}
+
+        r = requests.post("https://geekflare.com/tools/api/http-header", headers=headers2, json=data).text
+        if "strict-transport-security" in r:
+            print("[+] ENABLED HTTP Strict Transport Security. in response headers")
+        elif not "strict-transport-security" in r:
+            print("[-] No Security. Have Vulnerability!!")
+        input("Press ENTER For Exit.")
+    JSVuln()
