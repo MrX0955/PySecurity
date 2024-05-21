@@ -2,8 +2,8 @@
 **_Forensic Tool - PySecurity_**
 
 ##  👾 Features 
-- Cyber Security, Cracking, Web Vulnerability Scans, Personal Security Any Many More Tools.
-- Easy to use and All in one
+- _Cyber Security, Cracking, Web Vulnerability Scans, Personal Security Any Many More Tools._
+- _Easy to use and All in one_
 
 ## ✍️ Usage 
 **Windows:**
