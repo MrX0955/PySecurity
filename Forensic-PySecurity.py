@@ -29,18 +29,17 @@ def print_menu():
         ✨ {Fore.LIGHTGREEN_EX}If you saw {Fore.RED}'Quota Limit'{Fore.LIGHTGREEN_EX}, change your IP Address. ✨
         
 {Fore.RESET}{Fore.WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Fore.YELLOW}
-     
-     [0] > Close ForensicTool.        [11] > TLS Scan.
-     [1] > Reverse DNS.               [12] > DNS Record.
-     [2] > DNS Lookup.                [13] > DNS Security Extensions Check.
-     [3] > Geolocation IP.            [14] > CloudFlare Resolver.
-     [4] > Zone Transfer.             [15] > Check if your site can accept IPv6 Proxies.
-     [5] > DNS Host Records.          [16] > Check Front-End JavaScript Vulnerabilities.
-     [6] > Reverse IP Lookup.
+
+     [0] > Close ForensicTool.        [10] > DMARC Lookup.
+     [1] > Reverse DNS.               [11] > TLS Scan.
+     [2] > DNS Lookup.                [12] > DNS Record.
+     [3] > Geolocation IP.            [13] > DNS Security Extensions Check.
+     [4] > Zone Transfer.             [14] > CloudFlare Resolver.
+     [5] > DNS Host Records.          [15] > Check if your site can accept IPv6 Proxies.
+     [6] > Reverse IP Lookup.         [16] > Check Front-End JavaScript Vulnerabilities.
      [7] > ASN Lookup.
      [8] > Email Validator.
      [9] > Have I been Pwned?
-     [10] > DMARC Lookup.              
 
 {Fore.RESET}{Fore.WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Fore.MAGENTA}
     """
