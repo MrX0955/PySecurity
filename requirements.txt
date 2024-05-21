@@ -1,5 +1,2 @@
 colorama
 requests
-whois
-beautifulsoup4
-lxml
