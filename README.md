@@ -12,7 +12,7 @@
 `./ForensicTool.py`
 
 ## 🖥️ Preview
-![alt text](https://i.hizliresim.com/ew9fph2.png)
+![alt text](https://i.hizliresim.com/t5a02gm.png)
 
 ## ⚠️ DISCLAIMER 
 **This github repo is for EDUCATIONAL PURPOSES ONLY. I am NOT under any responsibility if a problem occurs.**
