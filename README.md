@@ -7,9 +7,9 @@
 
 ## ✍️ Usage 
 **Windows:**
-`python.exe ForensicTool.py`<br><br>
+`python.exe Forensic-PySecurity.py`<br><br>
 **Linux**
-`./ForensicTool.py`
+`./Forensic-PySecurity.py`
 
 ## 🖥️ Preview
 ![alt text](https://i.hizliresim.com/2vyx54l.png)
