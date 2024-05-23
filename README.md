@@ -11,8 +11,11 @@
 **Linux**
 `./Forensic-PySecurity.py`
 
-## 🖥️ Preview
+## 🖥️ Preview [Windows]
 ![alt text](https://i.hizliresim.com/2vyx54l.png)
+
+## 🖥️ Preview [Linux]
+![alt text](https://i.hizliresim.com/92std1s.png)
 
 ## ⚠️ DISCLAIMER 
 **This github repo is for EDUCATIONAL PURPOSES ONLY. I am NOT under any responsibility if a problem occurs.**
