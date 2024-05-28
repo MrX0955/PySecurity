@@ -1,7 +1,12 @@
 import requests, os, json
 from colorama import Fore
 
-os.system("cls" if os.name == "nt" else "clear")
+
+def clear():
+    os.system("cls" if os.name == "nt" else "clear")
+
+
+clear()
 os.system("title PySecurity Forensic Tool")
 
 
@@ -37,7 +42,7 @@ def print_menu():
      [4] > Zone Transfer.             [14] > CloudFlare Resolver.
      [5] > DNS Host Records.          [15] > Check if your site can accept IPv6 Proxies.
      [6] > Reverse IP Lookup.         [16] > Check Front-End JavaScript Vulnerabilities.
-     [7] > ASN Lookup.
+     [7] > ASN Lookup.                [17] > URL Shortener Bypasser.
      [8] > Email Validator.
      [9] > Have I been Pwned?
 
@@ -47,54 +52,59 @@ def print_menu():
 
 
 def reverseDNS():
-    print(f"{Fore.LIGHTRED_EX} > Reverse DNS{Fore.LIGHTGREEN_EX}")
     dns = input("Enter the IP Address: ")
     izlegal = requests.get(f"https://api.hackertarget.com/reversedns/?q={dns}")
-    print(izlegal.text, "| >> Press ENTER For Exit.")
+    print("\n", izlegal.text, "| >> Press ENTER For Exit.")
     input()
+    clear()
 
 
 def DNSLookup():
-    print(f"{Fore.LIGHTRED_EX} > DNS Lookup{Fore.LIGHTGREEN_EX}")
     lookup = input("Enter the Domain Name: ")
     two = requests.get(f"https://api.hackertarget.com/dnslookup/?q={lookup}")
-    print(two.text, "| >> Press ENTER For Exit.")
+    print("\n", two.text, "| >> Press ENTER For Exit.")
     input()
+    clear()
 
 
 def geoip():
     geoip = input("Enter the IP Address: ")
     i = requests.get(f"https://api.hackertarget.com/geoip/?q={geoip}")
-    print(i.text, "| => Press ENTER For Exit.")
+    print("\n", i.text, "| => Press ENTER For Exit.")
     input()
+    clear()
 
 
 def zonetransfer():
     zonetransfer = input("Enter the IP Address: ")
     z = requests.get(f"https://api.hackertarget.com/zonetransfer/?q={zonetransfer}")
-    print(z.text, "| => Press ENTER For Exit.")
+    print("\n", z.text, "| => Press ENTER For Exit.")
     input()
+    clear()
 
 
 def dnssubdomain():
     subdomain = input("Enter the Domain Name: ")
     k = requests.get(f"https://api.hackertarget.com/hostsearch/?q={subdomain}")
-    print(k.text, "| => Press ENTER For Exit.")
+    print("\n", k.text, "| => Press ENTER For Exit.")
     input()
+    clear()
 
 
 def reverseip():
     reverseip = input("Enter the IP Address: ")
     mrx = requests.get(f"https://api.hackertarget.com/reverseiplookup/?q={reverseip}")
-    print(mrx.text, "| => Press ENTER For Exit.")
+    print("\n", mrx.text, "| => Press ENTER For Exit.")
     input()
+    clear()
 
 
 def ASN():
     asnlookup = input(" IP Address or ASN: ")
     hasfa = requests.get(f"https://api.hackertarget.com/aslookup/?q={asnlookup}")
-    print(hasfa.text, "| => Press ENTER For Exit.")
+    print("\n", hasfa.text, "| => Press ENTER For Exit.")
     input()
+    clear()
 
 
 def emailvalid():
@@ -109,7 +119,8 @@ def emailvalid():
         print("[+] Bu Mail E-Posta alabilir. Yani bu mail doğru ve kullanılıyor.")
     elif "is an invalid email" in mrxvalid.text:
         print(f"{Fore.RED}[-] This Email is Not Working.{Fore.LIGHTGREEN_EX}")
-    input("Press ENTER For Exit.")
+    input("\nPress ENTER For Exit.")
+    clear()
 
 
 def proxycheck():
@@ -125,7 +136,8 @@ def proxycheck():
         print("[+] Private Mail Address")
     elif "We found" in proxyy.text:
         print(f"{Fore.RED}[-] Mail Public!{Fore.LIGHTGREEN_EX}")
-    input("Press ENTER For Exit.")
+    input("\nPress ENTER For Exit.")
+    clear()
 
 
 def DMARC():
@@ -140,7 +152,8 @@ def DMARC():
         print("[+] Have Firewall")
     elif "No record found" in DMARCR.text:
         print(f"{Fore.RED}[-] No Firewall!{Fore.LIGHTGREEN_EX}")
-    input("Press ENTER For Exit.")
+    input("\nPress ENTER For Exit.")
+    clear()
 
 
 def TLS():
@@ -154,7 +167,8 @@ def TLS():
     y = json.loads(zaclol)
     reqid = y["data"]["protocols"]
     print("TLS Bilgileri: ", reqid)
-    input("Press ENTER For Exit.")
+    input("\nPress ENTER For Exit.")
+    clear()
 
 
 def DNSRECORD():
@@ -168,7 +182,8 @@ def DNSRECORD():
     xx = json.loads(zacmrx)
     xxyy = xx["data"]
     print("DNS Records Infos: ", xxyy)
-    input("Press ENTER For Exit.")
+    input("\nPress ENTER For Exit.")
+    clear()
 
 
 def DNSSEC():
@@ -181,7 +196,8 @@ def DNSSEC():
     ).text
     rr = json.loads(rmrx)
     print(rr["data"])
-    input("Press ENTER For Exit.")
+    input("\nPress ENTER For Exit.")
+    clear()
 
 
 def CF():
@@ -205,7 +221,8 @@ def CF():
     varherhalde = varmi.replace("<b>", " ")
     KT = varherhalde.replace("Cloudflare Resolver", " ")
     print(KT)
-    input("Press ENTER For Exit.")
+    input("\nPress ENTER For Exit.")
+    clear()
 
 
 def ipv6():
@@ -246,7 +263,8 @@ def ipv6():
         print(
             f"{Fore.RED}[-] No Support For IPv6 Proxy For That Web Site --> {load}{Fore.LIGHTGREEN_EX}"
         )
-        input("Press ENTER For Exit.")
+        input("\nPress ENTER For Exit.")
+        clear()
 
 
 def JSVuln():
@@ -292,10 +310,27 @@ def JSVuln():
             else:
                 print("\n", details)
             input("\nPress ENTER For Exit.")
+            clear()
         else:
             print("\nREST API Can not response correctly..")
+            input("\nPress ENTER For Exit.")
+            clear()
     except KeyError:
         print("\nWe can't resolve that domain...")
+        input("\nPress ENTER For Exit.")
+        clear()
+
+
+def ShortURL():
+    load = input("Enter the URL: ").strip()
+    print(f"{Fore.LIGHTYELLOW_EX}\n > Wait For Result...{Fore.LIGHTGREEN_EX}")
+    req = requests.get(f"{load}", allow_redirects=True)
+    if req.status_code == 200:
+        print("\n", req.url)
+    else:
+        print("\n", req.status_code, req.reason, req.url)
+    input("\n Press ENTER For Exit.")
+    clear()
 
 
 while True:
@@ -305,7 +340,7 @@ while True:
     if choice == 0:
         exit()
 
-    os.system("cls" if os.name == "nt" else "clear")
+    clear()
 
     if choice == 1:
         reverseDNS()
@@ -354,3 +389,6 @@ while True:
 
     elif choice == 16:
         JSVuln()
+
+    elif choice == 17:
+        ShortURL()
