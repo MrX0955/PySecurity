@@ -1,3 +1,3 @@
 echo @off
-python Forensic-PySecurity.py
+python PySecurity.py
 PAUSE
