@@ -1,3 +1,3 @@
 echo @off
-python PySecurity.py
+python PySecurity.pyasd
 PAUSE
