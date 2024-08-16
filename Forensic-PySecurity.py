@@ -1,394 +1,356 @@
-import requests, os, json
-from colorama import Fore
+import requests
+import os
+import json
+from colorama import Fore, init
 
+init(autoreset=True)
 
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
-
 clear()
-os.system("title PySecurity Forensic Tool")
 
-
-class Settings:
+class Settings: 
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 OPR/112.0.0.0",
         "Pragma": "no-cache",
         "Accept": "*/*",
         "Content-Type": "application/x-www-form-urlencoded",
     }
 
     headers2 = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 OPR/112.0.0.0",
         "Pragma": "no-cache",
         "Accept": "*/*",
         "Content-Type": "application/json",
     }
-
 
 def print_menu():
-    print(Fore.LIGHTGREEN_EX)
-    MENU = f"""
-        👾 Forensic Tool / PySecurity 👾
-        💬 Telegram: {Fore.CYAN}@CleinKelvinn{Fore.RESET} 💬
-        ✨ {Fore.LIGHTGREEN_EX}If you saw {Fore.RED}'Quota Limit'{Fore.LIGHTGREEN_EX}, change your IP Address. ✨
-        
-{Fore.RESET}{Fore.WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Fore.YELLOW}
+    menu = f"""
+    👾 Forensic Tool / PySecurity 👾
+    💬 Telegram: {Fore.CYAN}@CleinKelvinn{Fore.RESET} 💬
+    ✨ {Fore.LIGHTGREEN_EX}If you see {Fore.RED}'Quota Limit'{Fore.LIGHTGREEN_EX}, change your IP Address. ✨
 
-     [0] > Close ForensicTool.        [10] > DMARC Lookup.
-     [1] > Reverse DNS.               [11] > TLS Scan.
-     [2] > DNS Lookup.                [12] > DNS Record.
-     [3] > Geolocation IP.            [13] > DNS Security Extensions Check.
-     [4] > Zone Transfer.             [14] > CloudFlare Resolver.
-     [5] > DNS Host Records.          [15] > Check if your site can accept IPv6 Proxies.
-     [6] > Reverse IP Lookup.         [16] > Check Front-End JavaScript Vulnerabilities.
-     [7] > ASN Lookup.                [17] > URL Shortener Bypasser.
-     [8] > Email Validator.
-     [9] > Have I been Pwned?
+{Fore.YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-{Fore.RESET}{Fore.WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Fore.MAGENTA}
+ [0] > Close PySecurity.          [10] > DMARC Lookup.
+ [1] > Reverse DNS.               [11] > TLS Scan.
+ [2] > DNS Lookup.                [12] > DNS Record.
+ [3] > Geolocation IP.            [13] > DNS Security Extensions Check.
+ [4] > Zone Transfer.             [14] > CloudFlare Resolver.
+ [5] > DNS Host Records.          [15] > Check if your site can accept IPv6 Proxies.
+ [6] > Reverse IP Lookup.         [16] > Check Front-End JavaScript Vulnerabilities.
+ [7] > ASN Lookup.                [17] > URL Shortener Bypasser.
+ [8] > Email Validator.
+ [9] > Have I been Pwned?
+
+{Fore.YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Fore.RESET}
     """
-    print(MENU)
+    print(menu)
 
+def make_request(url, params=None, data=None, headers=None, method="GET"):
+    try:
+        if method == "GET":
+            response = requests.get(url, params=params, headers=headers)
+        elif method == "POST":
+            response = requests.post(url, data=data, headers=headers)
+        response.raise_for_status()
+        return response.text
+    except requests.RequestException as e:
+        print(f"{Fore.RED}Error: {e}{Fore.RESET}")
+        return None
+
+def process_and_print_request(url, params=None, data=None, headers=None, method="GET"):
+    response = make_request(url, params, data, headers, method)
+    if response:
+        print("\n", response, "\n| >> Press ENTER to continue.")
+    input()
+    clear()
+
+def get_validated_input(prompt, validation_func):
+    while True:
+        user_input = input(prompt).strip()
+        if validation_func(user_input):
+            return user_input
+        else:
+            print(f"{Fore.RED}Invalid input. Please try again.{Fore.RESET}")
 
 def reverseDNS():
-    dns = input("Enter the IP Address: ")
-    izlegal = requests.get(f"https://api.hackertarget.com/reversedns/?q={dns}")
-    print("\n", izlegal.text, "| >> Press ENTER For Exit.")
-    input()
-    clear()
-
+    dns = get_validated_input("Enter the IP Address: ", lambda x: x)
+    process_and_print_request(f"https://api.hackertarget.com/reversedns/?q={dns}")
 
 def DNSLookup():
-    lookup = input("Enter the Domain Name: ")
-    two = requests.get(f"https://api.hackertarget.com/dnslookup/?q={lookup}")
-    print("\n", two.text, "| >> Press ENTER For Exit.")
-    input()
-    clear()
-
+    lookup = get_validated_input("Enter the Domain Name: ", lambda x: x)
+    process_and_print_request(f"https://api.hackertarget.com/dnslookup/?q={lookup}")
 
 def geoip():
-    geoip = input("Enter the IP Address: ")
-    i = requests.get(f"https://api.hackertarget.com/geoip/?q={geoip}")
-    print("\n", i.text, "| => Press ENTER For Exit.")
-    input()
-    clear()
-
+    geoip = get_validated_input("Enter the IP Address: ", lambda x: x)
+    process_and_print_request(f"https://api.hackertarget.com/geoip/?q={geoip}")
 
 def zonetransfer():
-    zonetransfer = input("Enter the IP Address: ")
-    z = requests.get(f"https://api.hackertarget.com/zonetransfer/?q={zonetransfer}")
-    print("\n", z.text, "| => Press ENTER For Exit.")
-    input()
-    clear()
-
+    zonetransfer = get_validated_input("Enter the Domain Name: ", lambda x: x)
+    process_and_print_request(f"https://api.hackertarget.com/zonetransfer/?q={zonetransfer}")
 
 def dnssubdomain():
-    subdomain = input("Enter the Domain Name: ")
-    k = requests.get(f"https://api.hackertarget.com/hostsearch/?q={subdomain}")
-    print("\n", k.text, "| => Press ENTER For Exit.")
-    input()
-    clear()
-
+    subdomain = get_validated_input("Enter the Domain Name: ", lambda x: x)
+    process_and_print_request(f"https://api.hackertarget.com/hostsearch/?q={subdomain}")
 
 def reverseip():
-    reverseip = input("Enter the IP Address: ")
-    mrx = requests.get(f"https://api.hackertarget.com/reverseiplookup/?q={reverseip}")
-    print("\n", mrx.text, "| => Press ENTER For Exit.")
-    input()
-    clear()
-
+    reverseip = get_validated_input("Enter the IP Address: ", lambda x: x)
+    process_and_print_request(f"https://api.hackertarget.com/reverseiplookup/?q={reverseip}")
 
 def ASN():
-    asnlookup = input(" IP Address or ASN: ")
-    hasfa = requests.get(f"https://api.hackertarget.com/aslookup/?q={asnlookup}")
-    print("\n", hasfa.text, "| => Press ENTER For Exit.")
-    input()
-    clear()
-
+    asnlookup = get_validated_input("Enter the IP Address or ASN: ", lambda x: x)
+    process_and_print_request(f"https://api.hackertarget.com/aslookup/?q={asnlookup}")
 
 def emailvalid():
-    mailvalid = input("Enter the Email Address: ")
-    datas = f"address=&email={mailvalid}&submit=Verify+Email+Address"
-    mrxvalid = requests.post(
+    mailvalid = get_validated_input("Enter the Email Address: ", lambda x: x)
+    data = f"address=&email={mailvalid}&submit=Verify+Email+Address"
+    response = make_request(
         "https://tools.iplocation.net/verify-email-address",
-        data=datas,
+        data=data,
         headers=Settings.headers,
+        method="POST"
     )
-    if "is a valid email" in mrxvalid.text:
-        print("[+] Bu Mail E-Posta alabilir. Yani bu mail doğru ve kullanılıyor.")
-    elif "is an invalid email" in mrxvalid.text:
-        print(f"{Fore.RED}[-] This Email is Not Working.{Fore.LIGHTGREEN_EX}")
-    input("\nPress ENTER For Exit.")
+    if response:
+        if "is a valid email" in response:
+            print("[+] This email is valid and active.")
+        elif "is an invalid email" in response:
+            print(f"{Fore.RED}[-] This email is not working.{Fore.LIGHTGREEN_EX}")
+    input("\nPress ENTER to continue.")
     clear()
-
 
 def proxycheck():
-    proxy = input("Enter the Mail Address: ")
-    proxy.replace("@", "%40")
-    datas = f"email={proxy}&submit=Breached%3F"
-    proxyy = requests.post(
+    proxy = get_validated_input("Enter the Email Address: ", lambda x: x.replace("@", "%40"))
+    data = f"email={proxy}&submit=Breached%3F"
+    response = make_request(
         "https://tools.iplocation.net/data-breach-check",
-        data=datas,
+        data=data,
         headers=Settings.headers,
+        method="POST"
     )
-    if "Congratulations" in proxyy.text:
-        print("[+] Private Mail Address")
-    elif "We found" in proxyy.text:
-        print(f"{Fore.RED}[-] Mail Public!{Fore.LIGHTGREEN_EX}")
-    input("\nPress ENTER For Exit.")
+    if response:
+        if "Congratulations" in response:
+            print("[+] Private email address")
+        elif "We found" in response:
+            print(f"{Fore.RED}[-] Email is public!{Fore.LIGHTGREEN_EX}")
+    input("\nPress ENTER to continue.")
     clear()
-
 
 def DMARC():
-    ece = input("Enter the Domain Address: ")
-    datas = f"url={ece}&submit="
-    DMARCR = requests.post(
+    domain = get_validated_input("Enter the Domain Address: ", lambda x: x)
+    data = f"url={domain}&submit="
+    response = make_request(
         "https://tools.iplocation.net/dmarc-lookup",
-        data=datas,
+        data=data,
         headers=Settings.headers,
+        method="POST"
     )
-    if "v=DMARC1" in DMARCR.text:
-        print("[+] Have Firewall")
-    elif "No record found" in DMARCR.text:
-        print(f"{Fore.RED}[-] No Firewall!{Fore.LIGHTGREEN_EX}")
-    input("\nPress ENTER For Exit.")
+    if response:
+        if "v=DMARC1" in response:
+            print("[+] DMARC record found")
+        elif "No record found" in response:
+            print(f"{Fore.RED}[-] No DMARC record found!{Fore.LIGHTGREEN_EX}")
+    input("\nPress ENTER to continue.")
     clear()
-
 
 def TLS():
-    tlszac = input("Enter the Domain Address: ")
-    datam = {"url": f"https://{tlszac}"}
-    zaclol = requests.post(
+    domain = get_validated_input("Enter the Domain Address: ", lambda x: x)
+    data = json.dumps({"url": f"https://{domain}"})
+    response = make_request(
         "https://siterelic.com/siterelic-api/tlsscan",
-        json=datam,
+        data=data,
         headers=Settings.headers2,
-    ).text
-    y = json.loads(zaclol)
-    reqid = y["data"]["protocols"]
-    print("TLS Bilgileri: ", reqid)
-    input("\nPress ENTER For Exit.")
+        method="POST"
+    )
+    if response:
+        tls_info = json.loads(response).get("data", {}).get("protocols", {})
+        print("TLS Information: ", tls_info)
+    input("\nPress ENTER to continue.")
     clear()
-
 
 def DNSRECORD():
-    dnsrecord = input("Enter the Domain Address: ")
-    datamiz = {"url": f"https://{dnsrecord}"}
-    zacmrx = requests.post(
+    domain = get_validated_input("Enter the Domain Address: ", lambda x: x)
+    data = json.dumps({"url": f"https://{domain}"})
+    response = make_request(
         "https://siterelic.com/siterelic-api/dnsrecord",
-        json=datamiz,
+        data=data,
         headers=Settings.headers2,
-    ).text
-    xx = json.loads(zacmrx)
-    xxyy = xx["data"]
-    print("DNS Records Infos: ", xxyy)
-    input("\nPress ENTER For Exit.")
+        method="POST"
+    )
+    if response:
+        dns_info = json.loads(response).get("data", {})
+        print("DNS Records Info: ", dns_info)
+    input("\nPress ENTER to continue.")
     clear()
-
 
 def DNSSEC():
-    DNSSEC = input("Enter the Domain Address: ")
-    datamizzz = {"url": f"https://{DNSSEC}"}
-    rmrx = requests.post(
+    domain = get_validated_input("Enter the Domain Address: ", lambda x: x)
+    data = json.dumps({"url": f"https://{domain}"})
+    response = make_request(
         "https://siterelic.com/siterelic-api/dnssec",
-        json=datamizzz,
+        data=data,
         headers=Settings.headers2,
-    ).text
-    rr = json.loads(rmrx)
-    print(rr["data"])
-    input("\nPress ENTER For Exit.")
+        method="POST"
+    )
+    if response:
+        dnssec_info = json.loads(response).get("data", {})
+        print("DNSSEC Info: ", dnssec_info)
+    input("\nPress ENTER to continue.")
     clear()
-
 
 def CF():
-    cloudflare = input("Enter the Domain Address: ")
-    datax = f"action=PostData&string={cloudflare}"
-
-    headersx = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
-        "Pragma": "no-cache",
-        "Accept": "*/*",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "x-requested-with": "XMLHttpRequest",
-        "referer": "https://webresolver.nl/tools/cloudflare",
-        "origin": "https://webresolver.nl",
-    }
-    req = requests.post(
-        "https://webresolver.nl/ajax/tools/cloudflare", data=datax, headers=headersx
-    ).text
-    var = req.replace("<br>", " ")
-    varmi = var.replace("</b><br />", " ")
-    varherhalde = varmi.replace("<b>", " ")
-    KT = varherhalde.replace("Cloudflare Resolver", " ")
-    print(KT)
-    input("\nPress ENTER For Exit.")
+    domain = get_validated_input("Enter the Domain Address: ", lambda x: x)
+    data = json.dumps({"url": f"https://{domain}"})
+    response = make_request(
+        "https://siterelic.com/siterelic-api/cloudflare",
+        data=data,
+        headers=Settings.headers2,
+        method="POST"
+    )
+    if response:
+        cf_info = json.loads(response).get("data", {})
+        print("CloudFlare Info: ", cf_info)
+    input("\nPress ENTER to continue.")
     clear()
-
 
 def ipv6():
-    load = input("Enter the Domain Address: ").strip()
-
-    access_token = requests.post(
+    domain = get_validated_input("Enter the Domain Address: ", lambda x: x)
+    print(f"{Fore.LIGHTYELLOW_EX}\n > Wait for result...{Fore.LIGHTGREEN_EX}")
+    access_token = make_request(
         "https://domsignal.com/tools/api/api-accessToken/",
-        json={"serviceType": "ipv6-test"},
+        data=json.dumps({"serviceType": "ipv6-test"}),
         headers={"Content-Type": "application/json"},
-    ).json()
-    TK = access_token["credentials"]["accessToken"]
+        method="POST"
+    )
+    if not access_token:
+        print(f"{Fore.RED}Error retrieving access token.{Fore.RESET}")
+        return
 
-    header = {
+    token = json.loads(access_token)["credentials"]["accessToken"]
+    headers = {
         "Host": "domsignal.com",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
         "Accept": "application/json, text/plain, */*",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Accept-Encoding": "gzip",
         "Content-Type": "application/json",
-        "public-authorization": TK,
+        "public-authorization": token,
         "Origin": "https://domsignal.com",
-        "Connection": "keep-alive",
         "Referer": "https://domsignal.com/ipv6-test",
     }
-
-    j = requests.post(
+    response = make_request(
         "https://domsignal.com/tools/api/gf/dnsrecord/",
-        json={"url": f"{load}", "type": "ipv6-test"},
-        headers=header,
-    ).json()
-
-    if "AAAA" in j["data"]:
-        print(
-            f"{Fore.GREEN}[+] This Web Site Supporting IPv6 Proxy Connection --> {load}{Fore.LIGHTGREEN_EX}"
-        )
-        input("Press ENTER For Exit.")
-    elif j["data"] == {}:
-        print(
-            f"{Fore.RED}[-] No Support For IPv6 Proxy For That Web Site --> {load}{Fore.LIGHTGREEN_EX}"
-        )
-        input("\nPress ENTER For Exit.")
-        clear()
-
-
-def JSVuln():
-    load = input("Enter the Domain Address: ").strip()
-    print(f"{Fore.LIGHTYELLOW_EX}\n > Wait For Result...{Fore.LIGHTGREEN_EX}")
-
-    access_token = requests.post(
-        "https://domsignal.com/tools/api/api-accessToken/",
-        json={"serviceType": "js-vulnerability-scanner"},
-        headers={"Content-Type": "application/json"},
-    ).json()
-    TK = access_token["credentials"]["accessToken"]
-
-    header = {
-        "Host": "domsignal.com",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
-        "Accept": "application/json, text/plain, */*",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Accept-Encoding": "gzip",
-        "Content-Type": "application/json",
-        "public-authorization": TK,
-        "Origin": "https://domsignal.com",
-        "Connection": "keep-alive",
-        "Referer": "https://domsignal.com/ipv6-test",
-    }
-
-    j = requests.post(
-        "https://domsignal.com/tools/api/gf/lighthouse/",
-        json={"url": f"{load}", "type": "js-vulnerability-scanner"},
-        headers=header,
-    ).json()
-
-    try:
-        if "lighthouse" in j["data"]:
-            url = j["data"]
-            req = requests.get(url).json()
-            response = req["audits"]["no-vulnerable-libraries"]["details"]["items"]
-            details = json.dumps(response, indent=3)
-            if details == "[]":
-                print(
-                    f"{Fore.RED}\n[-] No Vulnerable Libraries For That Web Site --> {load}{Fore.LIGHTGREEN_EX}"
-                )
-            else:
-                print("\n", details)
-            input("\nPress ENTER For Exit.")
-            clear()
+        data=json.dumps({"url": f"{domain}", "type": "ipv6-test"}),
+        headers=headers,
+        method="POST"
+    )
+    if response:
+        if "AAAA" in json.loads(response)["data"]:
+            print(f"{Fore.GREEN}[+] This website supports IPv6 proxy connections --> {domain}{Fore.LIGHTGREEN_EX}")
         else:
-            print("\nREST API Can not response correctly..")
-            input("\nPress ENTER For Exit.")
-            clear()
-    except KeyError:
-        print("\nWe can't resolve that domain...")
-        input("\nPress ENTER For Exit.")
-        clear()
-
-
-def ShortURL():
-    load = input("Enter the URL: ").strip()
-    print(f"{Fore.LIGHTYELLOW_EX}\n > Wait For Result...{Fore.LIGHTGREEN_EX}")
-    req = requests.get(f"{load}", allow_redirects=True)
-    if req.status_code == 200:
-        print("\n", req.url)
-    else:
-        print("\n", req.status_code, req.reason, req.url)
-    input("\n Press ENTER For Exit.")
+            print(f"{Fore.RED}[-] No IPv6 proxy support for this website --> {domain}{Fore.LIGHTGREEN_EX}")
+    input("Press ENTER to continue.")
     clear()
 
+def JSVuln():
+    domain = get_validated_input("Enter the Domain Address: ", lambda x: x)
+    print(f"{Fore.LIGHTYELLOW_EX}\n > Wait for result...{Fore.LIGHTGREEN_EX}")
+    access_token = make_request(
+        "https://domsignal.com/tools/api/api-accessToken/",
+        data=json.dumps({"serviceType": "js-vulnerability-scanner"}),
+        headers={"Content-Type": "application/json"},
+        method="POST"
+    )
+    if not access_token:
+        print(f"{Fore.RED}Error retrieving access token.{Fore.RESET}")
+        return
+
+    token = json.loads(access_token)["credentials"]["accessToken"]
+    headers = {
+        "Host": "domsignal.com",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
+        "Accept": "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+        "public-authorization": token,
+        "Origin": "https://domsignal.com",
+        "Referer": "https://domsignal.com/ipv6-test",
+    }
+    response = make_request(
+        "https://domsignal.com/tools/api/gf/lighthouse/",
+        data=json.dumps({"url": f"{domain}", "type": "js-vulnerability-scanner"}),
+        headers=headers,
+        method="POST"
+    )
+    
+    if not response:
+        print(f"{Fore.RED}Error: No response received for vulnerability scan.{Fore.RESET}")
+        return
+
+    try:
+        lighthouse_url = json.loads(response).get("data")
+        if not lighthouse_url:
+            print(f"{Fore.RED}Error: Lighthouse URL not found in response.{Fore.RESET}")
+            return
+        
+        vuln_response = requests.get(lighthouse_url).json()
+        vulnerabilities = vuln_response["audits"]["no-vulnerable-libraries"]["details"]["items"]
+        if vulnerabilities:
+            print(json.dumps(vulnerabilities, indent=3))
+        else:
+            print(f"{Fore.RED}\n[-] No vulnerable libraries found for this website --> {domain}{Fore.LIGHTGREEN_EX}")
+    except (KeyError, requests.RequestException, json.JSONDecodeError) as e:
+        print(f"{Fore.RED}Error processing vulnerability scan for domain: {domain} - {e}{Fore.RESET}")
+    input("\nPress ENTER to continue.")
+    clear()
+
+def ShortURL():
+    url = get_validated_input("Enter the URL: ", lambda x: x)
+    print(f"{Fore.LIGHTYELLOW_EX}\n > Wait for result...{Fore.LIGHTGREEN_EX}")
+    try:
+        response = requests.get(url, allow_redirects=True)
+        if response.status_code == 200:
+            print("\n", response.url)
+        else:
+            print("\n", response.status_code, response.reason, response.url)
+    except requests.RequestException as e:
+        print(f"{Fore.RED}Error: {e}{Fore.RESET}")
+    input("\n Press ENTER to continue.")
+    clear()
 
 while True:
     print_menu()
-    choice = int(input("🌐 Choose an option: "))
+    try:
+        choice = int(input(f"{Fore.MAGENTA}🌐 Choose an option: {Fore.RESET}"))
+    except ValueError:
+        clear()
+        continue
 
     if choice == 0:
         exit()
-
+    
     clear()
 
-    if choice == 1:
-        reverseDNS()
+    functions = {
+        1: reverseDNS,
+        2: DNSLookup,
+        3: geoip,
+        4: zonetransfer,
+        5: dnssubdomain,
+        6: reverseip,
+        7: ASN,
+        8: emailvalid,
+        9: proxycheck,
+        10: DMARC,
+        11: TLS,
+        12: DNSRECORD,
+        13: DNSSEC,
+        14: CF,
+        15: ipv6,
+        16: JSVuln,
+        17: ShortURL
+    }
 
-    elif choice == 2:
-        DNSLookup()
-
-    elif choice == 3:
-        geoip()
-
-    elif choice == 4:
-        zonetransfer()
-
-    elif choice == 5:
-        dnssubdomain()
-
-    elif choice == 6:
-        reverseip()
-
-    elif choice == 7:
-        ASN()
-
-    elif choice == 8:
-        emailvalid()
-
-    elif choice == 9:
-        proxycheck()
-
-    elif choice == 10:
-        DMARC()
-
-    elif choice == 11:
-        TLS()
-
-    elif choice == 12:
-        DNSRECORD()
-
-    elif choice == 13:
-        DNSSEC()
-
-    elif choice == 14:
-        CF()
-
-    elif choice == 15:
-        ipv6()
-
-    elif choice == 16:
-        JSVuln()
-
-    elif choice == 17:
-        ShortURL()
+    func = functions.get(choice)
+    if func:
+        func()
+    else:
+        clear()
