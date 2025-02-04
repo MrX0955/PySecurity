@@ -37,14 +37,14 @@ def print_menu():
  [1] > Reverse DNS.               [11] > TLS Scan.
  [2] > DNS Lookup.                [12] > DNS Record.
  [3] > Geolocation IP.            [13] > DNS Security Extensions Check.
- [4] > Zone Transfer.             [14] > CloudFlare Resolver.
+ [4] > Zone Transfer.             [14] > Privacy Detection API.
  [5] > DNS Host Records.          [15] > Check if your site can accept IPv6 Proxies.
  [6] > Reverse IP Lookup.         [16] > Check Front-End JavaScript Vulnerabilities.
  [7] > ASN Lookup.                [17] > URL Shortener Bypasser.
  [8] > Email Validator.
  [9] > Have I been Pwned?
 
-{Fore.YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Fore.RESET}
+{Fore.YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Fore.RESET}
     """
     print(menu)
 
@@ -78,6 +78,10 @@ def get_validated_input(prompt, validation_func):
 def reverseDNS():
     dns = get_validated_input("Enter the IP Address: ", lambda x: x)
     process_and_print_request(f"https://api.hackertarget.com/reversedns/?q={dns}")
+    
+def IpPrivacy():
+    ipaddress = get_validated_input("Enter the IP Address: ", lambda x: x)
+    process_and_print_request(f"https://ipinfo.io/widget/demo/{ipaddress}?dataset=proxy-vpn-detection")
 
 def DNSLookup():
     lookup = get_validated_input("Enter the Domain Name: ", lambda x: x)
@@ -343,7 +347,7 @@ while True:
         11: TLS,
         12: DNSRECORD,
         13: DNSSEC,
-        14: CF,
+        14: IpPrivacy,
         15: ipv6,
         16: JSVuln,
         17: ShortURL
